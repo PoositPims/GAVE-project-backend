@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      // role: {
+      //   type: DataTypes.ENUM("user", "shop"),
+      //   allowNull: false,
+      //   defaultValue: "user",
+      // },
       telephone: {
         type: DataTypes.STRING,
         allowNull: false,
