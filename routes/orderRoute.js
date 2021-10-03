@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const orderController = require("../controllers/cartController");
-const { authenticate } = require("../controllers/authController");
+const { authenticate, checkRole } = require("../controllers/authController");
 
-router.get("/", authenticate, orderController.createOrder);
-// router.post("/", authenticate, orderController.createOrder);
+router.get("/", authenticate, checkRole("Buyer"), orderController.createOrder);
+router.get("/", authenticate, checkRole("SHOP"), orderController.createOrder);
+router.post("/", authenticate, checkRole("Buyer"), orderController.createOrder);
 
 module.exports = router;

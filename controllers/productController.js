@@ -18,7 +18,7 @@ exports.getAllProduct = async (req, res, next) => {
 exports.getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await List.findOne({
+    const product = await Product.findOne({
       where: {
         id: id,
         // userId: req.user.id,
@@ -76,6 +76,43 @@ exports.deleteProduct = async (req, res, next) => {
       return res.status(400).json({ message: "cannot delete" });
     }
     res.status(204).json();
+  } catch (err) {
+    next(err);
+  }
+};
+
+//update
+exports.updateProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {
+      productName,
+      productPicture,
+      productSize,
+      price,
+      discount,
+      amount,
+      delivery,
+      isActive,
+    } = req.body;
+    const [rows] = await List.update(
+      {
+        productName,
+        productPicture,
+        productSize,
+        price,
+        discount,
+        amount,
+        delivery,
+        isActive,
+      },
+      { where: { id, userId: req.user.id } }
+    );
+    // if (rows[0] === 0)
+    // [rows] คือการ restruturing
+    if (rows === 0)
+      return res.status(400).json({ message: "cannot update list" });
+    res.status(200).json({ message: "update success" });
   } catch (err) {
     next(err);
   }

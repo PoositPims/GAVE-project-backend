@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(15, 2),
         allowNull: false,
       },
+      // role: {
+      //   type: DataTypes.DECIMAL(15, 2),
+      //   allowNull: false,
+      // },
     },
     {
       underscored: true,
@@ -47,3 +51,5 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Shop;
 };
+
+

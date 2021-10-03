@@ -105,7 +105,7 @@ exports.createUserRegister = async (req, res, next) => {
 // create User Login
 exports.login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { username, password } = req.body; // ต้องตรง
     const user = await User.findOne({ where: { username: username } });
     if (!user) {
       return res.status(400).json({ message: "invalid username or password" });
@@ -118,6 +118,7 @@ exports.login = async (req, res, next) => {
       id: user.id,
       email: user.email,
       username: user.username,
+      // role:user.role
     };
     const token = jwt.sign(payload, "qwerty", {
       expiresIn: 60 * 60 * 24 * 30,
