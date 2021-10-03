@@ -2,7 +2,7 @@
 // sequelize.sync({ force: true }); // sync แล้วให้ comment เลย
 
 // const db = require("./models");
-// db.Customer.crerate({});
+// db.Customer.create({});
 
 const express = require("express");
 const userRoute = require("./routes/userRoute");

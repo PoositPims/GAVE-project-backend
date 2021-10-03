@@ -1,6 +1,6 @@
 const { User, Shop } = require("../models");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 exports.checkRole =
   (...roles) =>
