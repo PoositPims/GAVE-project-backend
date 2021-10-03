@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Shop } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -33,17 +33,41 @@ exports.authenticate = async (req, res, next) => {
       return res.status(401).json({ message: "you are unauthorized" });
     }
 
+    // decoded = jwt paylaod object
     const decoded = jwt.verify(token, "qwerty");
+    const role = decoded.role;
+    switch (role) {
+      case "BUYER":
+        {
+          const user = await User.findOne({
+            where: {
+              id: decoded.id,
+            },
+          });
+          if (!user) {
+            return res.status(401).json({ message: "you are unauthorized" });
+          }
+          req.user = user;
+        }
+        break;
 
-    const user = await User.findOne({
-      where: {
-        id: decoded.id,
-      },
-    });
-    if (!user) {
-      return res.status(401).json({ message: "you are unauthorized" });
+      case "SHOP":
+        {
+          const shop = await Shop.findOne({
+            where: {
+              id: decoded.id,
+            },
+          });
+          if (!shop) {
+            return res.status(401).json({ message: "you are unauthorized" });
+          }
+          req.user = shop;
+        }
+        break;
+
+      default:
+        break;
     }
-    req.user = user;
     next();
   } catch (err) {
     next(err);
@@ -67,7 +91,7 @@ exports.login = async (req, res, next) => {
     const payload = {
       id: user.id,
       username: user.username,
-      // role: user.role,
+      role: user.role,
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
@@ -125,15 +149,15 @@ exports.login = async (req, res, next) => {
 // };
 
 // ตัวอย่าง........................................การเขียน Middleware
-exports.checkRole =
-  (...roles) =>
-  (req, res, next) => {
-    //ถ้าเป็น ['ADMIN'] Admin ก็จะ สามารถทำได้
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: "ypu are not allow" });
-    }
-    // if(!roles.includes(req.user.role )) คือไม่อนุญาติ
-    next();
-  };
+// exports.checkRole =
+//   (...roles) =>
+//   (req, res, next) => {
+//     //ถ้าเป็น ['ADMIN'] Admin ก็จะ สามารถทำได้
+//     if (!roles.includes(req.user.role)) {
+//       return res.status(403).json({ message: "you are not allow" });
+//     }
+//     // if(!roles.includes(req.user.role )) คือไม่อนุญาติ
+//     next();
+//   };
 
 // check ว่าใครบ้างที่เข้า route ไม่ได้

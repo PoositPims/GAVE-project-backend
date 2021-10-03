@@ -5,17 +5,11 @@ const { authenticate, checkRole } = require("../controllers/authController");
 
 // authenticate เฉพาะ shop (seller)??
 
-router.get("/", authenticate, checkRole("SHOP"), shopController, getAllshop);
-router.get(
-  "/:id",
-  authenticate,
-  checkRole("SHOP"),
-  shopController,
-  getshopById
-);
-router.put("/:id", authenticate, checkRole("SHOP"), shopController, updateShop);
-router.post("/", authenticate, checkRole("SHOP"), shopController.createShop);
-router.post("/", authenticate, checkRole("SHOP"), shopController.createShop);
+// router.get("/", authenticate, checkRole("SHOP"), shopController.getAllshop);
+// router.get("/:id", authenticate, checkRole("SHOP"), shopController.getshopById);
+// router.put("/:id", authenticate, checkRole("SHOP"), shopController.updateShop);
+router.post("/shopRegister", shopController.createShop);
+// router.post("/", authenticate, checkRole("SHOP"), shopController.createShop);
 // authenticate ก่อน post
 
 module.exports = router;

@@ -6,6 +6,7 @@
 
 const express = require("express");
 const userRoute = require("./routes/userRoute");
+const shopRoute = require("./routes/shopRoute");
 // const authRoute = require("./routes/authRoute");
 const cors = require("cors");
 const app = express();
@@ -16,7 +17,7 @@ app.use(express.static("public"));
 
 //config routing
 app.use("/users", userRoute);
-// app.use("/sellers", userRoute);
+app.use("/shops", shopRoute);
 // app.use("/", authRoute);
 // app.use("/seller", userRoute); ต้องแยก
 // แบ่ง path คนละหน้าที่ เช่น user , seller

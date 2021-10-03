@@ -83,7 +83,7 @@ exports.createUserRegister = async (req, res, next) => {
     //     .status(400)
     //     .json({ message: "password and confirm password did not match" });
     // }
-
+    const role = "BUYER";
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User.create({
       firstName,
@@ -94,6 +94,7 @@ exports.createUserRegister = async (req, res, next) => {
       password: hashedPassword,
       address1,
       address2,
+      role,
     });
     console.log(user);
     res.status(201).json({ user });

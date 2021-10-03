@@ -13,16 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      // role: {
-      //   type: DataTypes.ENUM("BUYER", "SHOP", "ADMIN"),
-      //   allowNull: false,
-      //   defaultValue: "user",
-      // },
+      role: {
+        type: DataTypes.ENUM("BUYER", "SHOP", "ADMIN"),
+        allowNull: false,
+        // defaultValue: "BUYER",
+      },
       telephone: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -45,14 +46,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.associate = (models) => {
-    User.hasOne(models.Shop, {
-      foreignKey: {
-        name: "userId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
-    });
     User.hasMany(models.Cart, {
       foreignKey: {
         name: "userId",

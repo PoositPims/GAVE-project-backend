@@ -33,11 +33,31 @@ exports.getshopById = async (req, res, next) => {
 //create
 exports.createShop = async (req, res, next) => {
   try {
-    const { shopName, shopAddress, revenue } = req.body;
-    const shop = await Shop.create({
+    const {
+      firstName,
+      lastName,
       shopName,
+      userName,
+      email,
+      password,
+      confirmPassword,
       shopAddress,
-      revenue,
+    } = req.body;
+
+    // validate
+    if (password !== confirmPassword) {
+      throw new Error("confirm password not match");
+    }
+    const role = "SHOP";
+    const shop = await Shop.create({
+      firstName,
+      lastName,
+      shopName,
+      userName,
+      email,
+      role,
+      password,
+      shopAddress,
     });
     res.status(201).json({ shop });
   } catch (err) {
@@ -59,6 +79,39 @@ exports.updateShop = async (req, res, next) => {
     if (rows === 0)
       return res.status(400).json({ message: "cannot update list" });
     res.status(200).json({ message: "update success" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// login
+exports.login = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ where: { username: username } });
+    if (!user) {
+      return res.status(400).json({ message: "invalid username or password" });
+    }
+
+    const isPasswordCorrent = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrent) {
+      return res.status(400).json({ message: "invalid username or password" });
+    }
+
+    const payload = {
+      id: user.id,
+      username: user.username,
+      role: user.role,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      expiresIn: 60 * 60 * 24 * 30,
+      //   expiresIn: "30d",
+      // "qwerty" คือ secret key
+    });
+    console.log(token);
+    res.json({ message: "success login", token });
   } catch (err) {
     next(err);
   }
