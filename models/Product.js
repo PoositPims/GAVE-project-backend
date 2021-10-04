@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       productPicture: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       productSize: {
         type: DataTypes.STRING,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       discount: {
         type: DataTypes.DECIMAL(15, 2),
-        allowNull: false,
+        allowNull: true,
       },
       amount: {
         type: DataTypes.INTEGER,
@@ -28,16 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       delivery: {
         type: DataTypes.ENUM(
-          "Thailand Post",
-          "Flash Express",
-          "Kerry Express",
-          "J&T Express"
+          "ThailandPost",
+          "FlashExpress",
+          "KerryExpress",
+          "JandTExpress"
         ),
         allowNull: false,
       },
       isActive: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

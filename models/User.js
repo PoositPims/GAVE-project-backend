@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique:true,
+        validate:{
+          isEmail: true
+        }
       },
       role: {
         type: DataTypes.ENUM("BUYER", "SHOP", "ADMIN"),

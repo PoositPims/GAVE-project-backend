@@ -1,12 +1,12 @@
 const { Shop } = require("../models");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 //get all
 exports.getAllshop = async (req, res, next) => {
   try {
-    const shop = await Shop.findAll({
-      where: { userId: req.user.id },
-      // เพื่อให้คนที่สามารถเข้าถึงข้อมูลนี้ได้ คือคนที่เป็นเจ้าของรหัสเท่านั้น (Auhtnticate)
-    });
+    const shop = await Shop.findAll(
+    )
     res.json({ shop });
   } catch (err) {
     next(err);
@@ -20,7 +20,7 @@ exports.getshopById = async (req, res, next) => {
     const shop = await Shop.findOne({
       where: {
         id: id,
-        userId: req.user.id,
+        shopId: req.shop.id,
         // ใส่เงื่อนไข Authenticate เพราะมันอาจจะไปขอไอดีของคนที่ไม่ใช่เจ้าของก็ได้ เราจึงจำเป็นต้องใส่ ไม่งั้นมันจะไปเอา list ของใครมาก็ได้
       },
     });
@@ -37,7 +37,7 @@ exports.createShop = async (req, res, next) => {
       firstName,
       lastName,
       shopName,
-      userName,
+      username,
       email,
       password,
       confirmPassword,
@@ -49,17 +49,19 @@ exports.createShop = async (req, res, next) => {
       throw new Error("confirm password not match");
     }
     const role = "SHOP";
+    const hashedPassword = await bcrypt.hash(password,12)
     const shop = await Shop.create({
       firstName,
       lastName,
       shopName,
-      userName,
+      username,
       email,
       role,
-      password,
+      password:hashedPassword,
       shopAddress,
     });
-    res.status(201).json({ shop });
+    console.log(shop)
+    res.status(201).json({ shop});
   } catch (err) {
     next(err);
   }
@@ -88,28 +90,29 @@ exports.updateShop = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ where: { username: username } });
-    if (!user) {
+    const shop = await Shop.findOne({ where: { username: username } });
+    if (!shop) {
       return res.status(400).json({ message: "invalid username or password" });
     }
 
-    const isPasswordCorrent = await bcrypt.compare(password, user.password);
+    const isPasswordCorrent = await bcrypt.compare(password, shop.password);
 
     if (!isPasswordCorrent) {
       return res.status(400).json({ message: "invalid username or password" });
     }
 
     const payload = {
-      id: user.id,
-      username: user.username,
-      role: user.role,
+      id: shop.id,
+      username: shop.username,
+      role: shop.role,
     };
-
+console.log(process.env.JWT_SECRET_KEY)
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
       expiresIn: 60 * 60 * 24 * 30,
       //   expiresIn: "30d",
       // "qwerty" คือ secret key
     });
+
     console.log(token);
     res.json({ message: "success login", token });
   } catch (err) {

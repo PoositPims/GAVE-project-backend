@@ -3,18 +3,18 @@ const router = express.Router();
 const productController = require("../controllers/productController");
 const { authenticate, checkRole } = require("../controllers/authController");
 
-router.get("/", productController.getAllProduct);
-router.get("/:id", productController.getProductById);
-router.delete(
-  "/:id",
-  authenticate,
-  checkRole("SHOP"),
-  productController.deleteProduct
-);
+// router.get("/", productController.getAllProduct);
+// router.get("/:id", productController.getProductById);
+// router.delete(
+//   "/:id",
+//   authenticate,
+//   checkRole("SHOP"),
+//   productController.deleteProduct
+// );
 router.post(
-  "/",
-  authenticate,
-  checkRole("SHOP"),
+  "/createProduct",
+  // authenticate,
+  // checkRole("SHOP"),
   productController.createProduct
 );
 router.put(

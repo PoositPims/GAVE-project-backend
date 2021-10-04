@@ -13,14 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       shopName: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique:true
       },
-      userName: {
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique:true
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique:true,
+        validate:{
+          isEmail: true
+        }
       },
       role: {
         type: DataTypes.ENUM("BUYER", "SHOP", "ADMIN"),
@@ -45,31 +51,31 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
     }
   );
-  // Shop.associate = (models) => {
-  //   Shop.belongsTo(models.User, {
-  //     foreignKey: {
-  //       name: "userId",
-  //       allowNull: false,
-  //     },
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  //   Shop.hasMany(models.Product, {
-  //     foreignKey: {
-  //       name: "shopId",
-  //       allowNull: false,
-  //     },
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  //   Shop.hasMany(models.Order, {
-  //     foreignKey: {
-  //       name: "shopId",
-  //       allowNull: false,
-  //     },
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  // };
+  Shop.associate = (models) => {
+    // Shop.belongsTo(models.User, {
+    //   foreignKey: {
+    //     name: "userId",
+    //     allowNull: false,
+    //   },
+    //   onDelete: "RESTRICT",
+    //   onUpdate: "RESTRICT",
+    // });
+    Shop.hasMany(models.Product, {
+      foreignKey: {
+        name: "shopId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT",
+    });
+    Shop.hasMany(models.Order, {
+      foreignKey: {
+        name: "shopId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT",
+    });
+  };
   return Shop;
 };
