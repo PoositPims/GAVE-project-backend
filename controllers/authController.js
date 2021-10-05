@@ -6,6 +6,8 @@ exports.checkRole =
   (...roles) =>
   async (req, res, next) => {
     // ['ADMIN']          'CUSTOMER'
+    console.log(roles)
+    console.log(req.user.role)
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({ message: "you are not allowed" });
     }
@@ -22,6 +24,7 @@ exports.checkRole =
 
 exports.authenticate = async (req, res, next) => {
   try {
+    console.log('authen')
     const { authorization } = req.headers;
     if (!authorization || !authorization.startsWith("Bearer")) {
       return res.status(401).json({ message: "you are unauthorized" });
@@ -36,6 +39,7 @@ exports.authenticate = async (req, res, next) => {
     // decoded = jwt paylaod object
     const decoded = jwt.verify(token, "qwerty");
     const role = decoded.role;
+    console.log(decoded)
     switch (role) {
       case "BUYER":
         {
@@ -62,6 +66,7 @@ exports.authenticate = async (req, res, next) => {
             return res.status(401).json({ message: "you are unauthorized" });
           }
           req.user = shop;
+          // แก้เป็น req.shop
         }
         break;
 

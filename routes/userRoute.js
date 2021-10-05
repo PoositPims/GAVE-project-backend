@@ -4,8 +4,8 @@ const userController = require("../controllers/userController");
 // const { authenticate } = require("../controllers/authController");
 // const { authenticate } = require("../controllers/userController");
 
-// router.get("/", userController.getAllUser);
-// router.get("/:id", userController.getAllUser);
+router.get("/", userController.getAllUser);
+router.get("/:id", userController.getUserById);
 // .................
 // router.post("/register", authenticate, userController.createUserRegister);
 // router.post("/register", authenticate, userController.createUserRegister);

@@ -39,7 +39,7 @@ exports.authenticate = async (req, res, next) => {
 exports.getAllUser = async (req, res, next) => {
   try {
     const user = await User.findAll({
-      where: { userId: req.user.id },
+      // where: { userId: req.user.id },
     });
     res.json({ user });
   } catch (err) {
@@ -48,21 +48,21 @@ exports.getAllUser = async (req, res, next) => {
 };
 
 // get by id
-// exports.getUserById = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const list = await List.findOne({
-//       where: {
-//         id: id,
-//         userId: req.user.id,
-//         // ใส่เงื่อนไข Authenticate เพราะมันอาจจะไปขอไอดีของคนที่ไม่ใช่เจ้าของก็ได้ เราจึงจำเป็นต้องใส่ ไม่งั้นมันจะไปเอา list ของใครมาก็ได้
-//       },
-//     });
-//     res.json({ list });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+exports.getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({
+      where: {
+        id: id,
+        // userId: req.user.id,
+        // ใส่เงื่อนไข Authenticate เพราะมันอาจจะไปขอไอดีของคนที่ไม่ใช่เจ้าของก็ได้ เราจึงจำเป็นต้องใส่ ไม่งั้นมันจะไปเอา list ของใครมาก็ได้
+      },
+    });
+    res.json({ user });
+  } catch (err) {
+    next(err);
+  }
+};
 
 // User create Register
 exports.createUserRegister = async (req, res, next) => {
@@ -119,7 +119,7 @@ exports.login = async (req, res, next) => {
       id: user.id,
       email: user.email,
       username: user.username,
-      // role:user.role
+      role:user.role
     };
     const token = jwt.sign(payload, "qwerty", {
       expiresIn: 60 * 60 * 24 * 30,

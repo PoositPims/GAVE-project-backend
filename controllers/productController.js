@@ -41,7 +41,8 @@ exports.createProduct = async (req, res, next) => {
       price,
       discount,
       amount,
-      delivery
+      delivery,
+      shopId
     } = req.body;
 
     const product = await Product.create({
@@ -51,7 +52,9 @@ exports.createProduct = async (req, res, next) => {
       price,
       discount,
       amount,
-      delivery
+      delivery,
+      shopId: req.user.id,
+      isActive: true
     });
     res.status(201).json({ product });
   } catch (err) {
