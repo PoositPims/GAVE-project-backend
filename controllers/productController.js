@@ -1,13 +1,26 @@
 const { Product } = require("../models");
 
-//get all
+//get all authen
 exports.getAllProduct = async (req, res, next) => {
   try {
-    const product = await Product
-      .findAll
-      // where: { userId: req.user.id },
-      // ไม่ม where เพราะ ทุกๆคนสามารถเข้าถึงข้อมูลชุดนี้ได้ ต่อให้ไม่เป็น user
-      ();
+    const { isActive = true } = req.query;
+    const product = await Product.findAll({
+      where: { shopId: req.user.id, isActive: isActive },
+    });
+    console.log("test");
+    console.log(product);
+    res.json({ product });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//get all
+exports.getAllProductHome = async (req, res, next) => {
+  try {
+    const product = await Product.findAll({
+      // where: { shopId: req.user.id },
+    });
     res.json({ product });
   } catch (err) {
     next(err);
@@ -42,7 +55,7 @@ exports.createProduct = async (req, res, next) => {
       discount,
       amount,
       delivery,
-      shopId
+      shopId,
     } = req.body;
 
     const product = await Product.create({
@@ -54,7 +67,7 @@ exports.createProduct = async (req, res, next) => {
       amount,
       delivery,
       shopId: req.user.id,
-      isActive: true
+      isActive: true,
     });
     res.status(201).json({ product });
   } catch (err) {

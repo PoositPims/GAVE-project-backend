@@ -25,7 +25,7 @@ exports.getshopById = async (req, res, next) => {
         // ใส่เงื่อนไข Authenticate เพราะมันอาจจะไปขอไอดีของคนที่ไม่ใช่เจ้าของก็ได้ เราจึงจำเป็นต้องใส่ ไม่งั้นมันจะไปเอา list ของใครมาก็ได้
       },
     });
-    console.log(shop)
+    // console.log(shop)
     res.json({ shop });
   } catch (err) {
     next(err);

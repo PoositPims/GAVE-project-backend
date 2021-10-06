@@ -3,7 +3,8 @@ const router = express.Router();
 const productController = require("../controllers/productController");
 const { authenticate, checkRole } = require("../controllers/authController");
 
-router.get("/", productController.getAllProduct);
+router.get("/", authenticate, productController.getAllProduct);
+router.get("/allProduct", productController.getAllProductHome);
 router.get("/:id", productController.getProductById);
 // router.delete(
 //   "/:id",

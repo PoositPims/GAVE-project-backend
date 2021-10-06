@@ -22,7 +22,7 @@ app.use("/shops", shopRoute);
 app.use("/products",productRoute)
 // app.use("/", authRoute);
 // app.use("/seller", userRoute); ต้องแยก
-// แบ่ง path คนละหน้าที่ เช่น user , seller
+// แบ่ง path คนละหน้าที่ เช่น user , sellers
 
 // handle path and method not found (path and method not specified in the server)
 // เอาไว้ดัก เวลาหาไม่เอ
