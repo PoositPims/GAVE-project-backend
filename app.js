@@ -3,11 +3,12 @@
 
 // const db = require("./models");
 // db.Customer.create({});
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const userRoute = require("./routes/userRoute");
 const shopRoute = require("./routes/shopRoute");
-const productRoute = require("./routes/productRoute")
+const productRoute = require("./routes/productRoute");
+// const orderRoute = require("./routes/orderRoute");
 // const authRoute = require("./routes/authRoute");
 const cors = require("cors");
 const app = express();
@@ -19,7 +20,8 @@ app.use(express.static("public"));
 //config routing
 app.use("/users", userRoute);
 app.use("/shops", shopRoute);
-app.use("/products",productRoute)
+app.use("/products", productRoute);
+// app.use("/orders", orderRoute);
 // app.use("/", authRoute);
 // app.use("/seller", userRoute); ต้องแยก
 // แบ่ง path คนละหน้าที่ เช่น user , sellers

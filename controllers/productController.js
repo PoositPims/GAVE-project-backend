@@ -1,14 +1,29 @@
 const { Product } = require("../models");
 
-//get all authen
-exports.getAllProduct = async (req, res, next) => {
+//get all authen (true)
+exports.getAllProductTrue = async (req, res, next) => {
   try {
     const { isActive = true } = req.query;
     const product = await Product.findAll({
       where: { shopId: req.user.id, isActive: isActive },
     });
-    console.log("test");
-    console.log(product);
+    // console.log("test");
+    // console.log(product);
+    res.json({ product });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//get all authen (false)
+exports.getAllProductFalse = async (req, res, next) => {
+  try {
+    const { isActive = false } = req.query;
+    const product = await Product.findAll({
+      where: { shopId: req.user.id, isActive: isActive },
+    });
+    // console.log("test");
+    // console.log(product);
     res.json({ product });
   } catch (err) {
     next(err);
@@ -18,7 +33,9 @@ exports.getAllProduct = async (req, res, next) => {
 //get all
 exports.getAllProductHome = async (req, res, next) => {
   try {
+    const { isActive = true } = req.query;
     const product = await Product.findAll({
+      where: { isActive: isActive },
       // where: { shopId: req.user.id },
     });
     res.json({ product });
@@ -56,6 +73,7 @@ exports.createProduct = async (req, res, next) => {
       amount,
       delivery,
       shopId,
+      isActive,
     } = req.body;
 
     const product = await Product.create({
@@ -67,7 +85,7 @@ exports.createProduct = async (req, res, next) => {
       amount,
       delivery,
       shopId: req.user.id,
-      isActive: true,
+      isActive,
     });
     res.status(201).json({ product });
   } catch (err) {
@@ -79,6 +97,7 @@ exports.createProduct = async (req, res, next) => {
 exports.deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
+    // console.log(id);
     const rows = await Product.destroy({
       where: {
         id,

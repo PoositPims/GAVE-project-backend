@@ -3,15 +3,16 @@ const router = express.Router();
 const productController = require("../controllers/productController");
 const { authenticate, checkRole } = require("../controllers/authController");
 
-router.get("/", authenticate, productController.getAllProduct);
+router.get("/sold", authenticate, productController.getAllProductTrue);
+router.get("/notSold", authenticate, productController.getAllProductFalse);
 router.get("/allProduct", productController.getAllProductHome);
 router.get("/:id", productController.getProductById);
-// router.delete(
-//   "/:id",
-//   authenticate,
-//   checkRole("SHOP"),
-//   productController.deleteProduct
-// );
+router.delete(
+  "/:id",
+  authenticate,
+  checkRole("SHOP"),
+  productController.deleteProduct
+);
 router.post(
   "/createProduct",
   authenticate,
