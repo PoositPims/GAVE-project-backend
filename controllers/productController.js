@@ -129,7 +129,7 @@ exports.updateProduct = async (req, res, next) => {
       delivery,
       isActive,
     } = req.body;
-    const [rows] = await List.update(
+    const [rows] = await Product.update(
       {
         productName,
         productPicture,
@@ -140,7 +140,12 @@ exports.updateProduct = async (req, res, next) => {
         delivery,
         isActive,
       },
-      { where: { id, userId: req.user.id } }
+      {
+        where: {
+          id,
+          // userId: req.user.id
+        },
+      }
     );
     // if (rows[0] === 0)
     // [rows] คือการ restruturing

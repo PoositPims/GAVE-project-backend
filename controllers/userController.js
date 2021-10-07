@@ -119,7 +119,7 @@ exports.login = async (req, res, next) => {
       id: user.id,
       email: user.email,
       username: user.username,
-      role:user.role
+      role: user.role,
     };
     const token = jwt.sign(payload, "qwerty", {
       expiresIn: 60 * 60 * 24 * 30,
