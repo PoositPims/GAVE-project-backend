@@ -1,4 +1,38 @@
 const { Product } = require("../models");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const util = require("util"); // แปลง callback ให้เป็น promise
+const uploadPromise = util.promisify(cloudinary.uploader.upload);
+// // multer piccture
+// const pictureStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalName);
+//   },
+// });
+
+// const upload = multer({ storage: pictureStorage });
+// app.post("/single", upload.single("image"), (req, res) => {
+//   console.log(req.file);
+//   res.send("single file success");
+// });
+
+// cloudunary picture.......................................................
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      // console.log(file);
+      cb(null, "public/images");
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}.${file.mimetype.split("/")[1]}`);
+    },
+  }),
+});
+
+// cloudunary picture.......................................................
 
 //get all authen (true)
 exports.getAllProductTrue = async (req, res, next) => {
@@ -76,9 +110,10 @@ exports.createProduct = async (req, res, next) => {
       isActive,
     } = req.body;
 
+    const result = await uploadPromise(req.file.path);
     const product = await Product.create({
       productName,
-      productPicture,
+      productPicture: result.secure_url,
       productSize,
       price,
       discount,
