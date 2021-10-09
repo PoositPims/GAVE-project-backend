@@ -1,4 +1,4 @@
-const { Product } = require("../models");
+const { Product, Shop } = require("../models");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const util = require("util"); // แปลง callback ให้เป็น promise
@@ -70,6 +70,9 @@ exports.getAllProductHome = async (req, res, next) => {
     const { isActive = true } = req.query;
     const product = await Product.findAll({
       where: { isActive: isActive },
+      include: {
+        model: Shop,
+      },
       // where: { shopId: req.user.id },
     });
     res.json({ product });
