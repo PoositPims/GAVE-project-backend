@@ -1,4 +1,5 @@
 const { Cart } = require("../models");
+const { clone } = require("lodash");
 
 //get all
 exports.getAllCart = async (req, res, next) => {
@@ -31,10 +32,17 @@ exports.getCartById = async (req, res, next) => {
 };
 
 //create
-exports.createCart = async (req, res, next) => {
+exports.addToCart = async (req, res, next) => {
   try {
-    const { products, totalPrice, isPaid } = req.body;
-    const cart = await Cart.create({ products, totalPrice, isPaid });
+    const { userId, productId, quantity } = req.body;
+    const cart = await Cart.findOne({ where: { userId, isPaid: false } });
+    const products = clone(cart.products);
+    const productToBeAdded = {
+      [productId]: quantity,
+    };
+    products.push(productToBeAdded);
+    await cart.update({ products });
+    // const cart = await Cart.create({ products, totalPrice, isPaid });
     res.status(201).json({ cart });
   } catch (err) {
     next(err);

@@ -1,0 +1,15 @@
+@jsonContentType = application/json
+@urlencodedContentType = application/x-www-from-urlencoded
+
+@baseUrl = http://localhost:8115
+
+###
+# @name ChillPay
+POST {{baseUrl}}/payments/request-payment
+Content-Type: {{jsonContentType}}
+
+{
+    "userId": 1,
+    "cartId":1,
+    "totalAmount": 400
+}

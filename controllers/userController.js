@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Cart } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -67,6 +67,7 @@ exports.getUserById = async (req, res, next) => {
 // User create Register
 exports.createUserRegister = async (req, res, next) => {
   try {
+    // create user
     const {
       firstName,
       lastName,
@@ -77,7 +78,6 @@ exports.createUserRegister = async (req, res, next) => {
       address1,
       address2,
     } = req.body;
-    console.log(firstName);
     // if (password !== confirmPassword) {
     //   return res
     //     .status(400)
@@ -96,7 +96,24 @@ exports.createUserRegister = async (req, res, next) => {
       address2,
       role,
     });
-    console.log(user);
+
+    // const ourProducts = [
+    //   {
+    //     'productId': 1,
+    //     'quantity': 10
+    //   },
+    //   {
+    //     'productId': 1,
+    //     'quantity': 10
+    //   }
+    // ]
+    // create cart for user
+    await Cart.create({
+      products: [],
+      totalPrice: 0,
+      isPaid: false,
+      userId: user.id,
+    });
     res.status(201).json({ user });
   } catch (err) {
     next(err);

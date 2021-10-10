@@ -28,14 +28,22 @@ module.exports = (Sequelize, DataTypes) => {
       onDelete: "RESTRICT",
       onUpdate: "RESTRICT",
     });
-    Cart.belongsTo(models.Product, {
+    Cart.hasOne(models.Order, {
       foreignKey: {
-        name: "productId",
+        name: "cartId",
         allowNull: false,
       },
       onDelete: "RESTRICT",
       onUpdate: "RESTRICT",
     });
+    // Cart.belongsTo(models.Product, {
+    //   foreignKey: {
+    //     name: "productId",
+    //     allowNull: false,
+    //   },
+    //   onDelete: "RESTRICT",
+    //   onUpdate: "RESTRICT",
+    // });
   };
   return Cart;
 };

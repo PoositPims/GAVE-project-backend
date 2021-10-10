@@ -1,5 +1,6 @@
-// const { sequelize } = require("./models");
-// sequelize.sync({ force: true }); // sync แล้วให้ comment เลย
+const { sequelize } = require("./models");
+sequelize.sync({ force: true }); // sync แล้วให้ comment เลย
+// const { initSeedData } = require("./utils/seed");
 
 // const db = require("./models");
 // db.Customer.create({});
@@ -11,6 +12,7 @@ const userRoute = require("./routes/userRoute");
 const shopRoute = require("./routes/shopRoute");
 const fs = require("fs");
 const productRoute = require("./routes/productRoute");
+const paymentRoute = require("./routes/paymentRoute");
 // const orderRoute = require("./routes/orderRoute");
 // const authRoute = require("./routes/authRoute");
 const cors = require("cors");
@@ -18,6 +20,7 @@ const app = express();
 app.use(cors());
 // const cloudinary = require("cloudinary").v2;
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static("public"));
 // app.use(express.static("public"));
 
@@ -26,6 +29,7 @@ app.use("/public", express.static("public"));
 app.use("/users", userRoute);
 app.use("/shops", shopRoute);
 app.use("/products", productRoute);
+app.use("/payments", paymentRoute);
 
 const { memoryStorage } = require("multer");
 // app.use("/orders", orderRoute);

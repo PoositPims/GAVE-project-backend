@@ -5,8 +5,7 @@ const bcrypt = require("bcryptjs");
 //get all
 exports.getAllshop = async (req, res, next) => {
   try {
-    const shop = await Shop.findAll(
-    )
+    const shop = await Shop.findAll();
     res.json({ shop });
   } catch (err) {
     next(err);
@@ -45,7 +44,6 @@ exports.createShop = async (req, res, next) => {
       confirmPassword,
       shopAddress,
       renenue,
-      created_at
     } = req.body;
 
     // validate
@@ -53,7 +51,7 @@ exports.createShop = async (req, res, next) => {
       throw new Error("confirm password not match");
     }
     const role = "SHOP";
-    const hashedPassword = await bcrypt.hash(password,12)
+    const hashedPassword = await bcrypt.hash(password, 12);
     const shop = await Shop.create({
       firstName,
       lastName,
@@ -61,13 +59,12 @@ exports.createShop = async (req, res, next) => {
       username,
       email,
       role,
-      password:hashedPassword,
+      password: hashedPassword,
       shopAddress,
       renenue,
-      created_at
     });
-    console.log(shop)
-    res.status(201).json({ shop});
+    console.log(shop);
+    res.status(201).json({ shop });
   } catch (err) {
     next(err);
   }
@@ -112,7 +109,7 @@ exports.login = async (req, res, next) => {
       username: shop.username,
       role: shop.role,
     };
-console.log(process.env.JWT_SECRET_KEY)
+    console.log(process.env.JWT_SECRET_KEY);
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
       expiresIn: 60 * 60 * 24 * 30,
       //   expiresIn: "30d",

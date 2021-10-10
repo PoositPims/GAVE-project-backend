@@ -45,14 +45,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Product.associate = (models) => {
-    Product.hasOne(models.Cart, {
-      foreignKey: {
-        name: "productId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
-    });
+    // Product.hasOne(models.Cart, {
+    //   foreignKey: {
+    //     name: "productId",
+    //     allowNull: false,
+    //   },
+    //   onDelete: "RESTRICT",
+    //   onUpdate: "RESTRICT",
+    // });
     Product.belongsTo(models.Shop, {
       foreignKey: {
         name: "shopId",
@@ -61,14 +61,14 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "RESTRICT",
       onUpdate: "RESTRICT",
     });
-    Product.hasMany(models.OrderItem, {
-      foreignKey: {
-        name: "productId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
-    });
+    // Product.hasMany(models.OrderItem, {
+    //   foreignKey: {
+    //     name: "productId",
+    //     allowNull: false,
+    //   },
+    //   onDelete: "RESTRICT",
+    //   onUpdate: "RESTRICT",
+    // });
   };
   return Product;
 };

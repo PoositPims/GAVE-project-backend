@@ -13,20 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       shopName: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique:true
+        unique: true,
       },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique:true
+        unique: true,
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique:true,
-        validate:{
-          isEmail: true
-        }
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
       },
       role: {
         type: DataTypes.ENUM("BUYER", "SHOP", "ADMIN"),
@@ -52,14 +52,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Shop.associate = (models) => {
-    // Shop.belongsTo(models.User, {
-    //   foreignKey: {
-    //     name: "userId",
-    //     allowNull: false,
-    //   },
-    //   onDelete: "RESTRICT",
-    //   onUpdate: "RESTRICT",
-    // });
     Shop.hasMany(models.Product, {
       foreignKey: {
         name: "shopId",
@@ -68,14 +60,14 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "RESTRICT",
       onUpdate: "RESTRICT",
     });
-    Shop.hasMany(models.Order, {
-      foreignKey: {
-        name: "shopId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-      onUpdate: "RESTRICT",
-    });
+    // Shop.hasMany(models.Order, {
+    //   foreignKey: {
+    //     name: "shopId",
+    //     allowNull: false,
+    //   },
+    //   onDelete: "RESTRICT",
+    //   onUpdate: "RESTRICT",
+    // });
   };
   return Shop;
 };
