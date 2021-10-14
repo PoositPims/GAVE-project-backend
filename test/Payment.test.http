@@ -9,7 +9,6 @@ POST {{baseUrl}}/payments/request-payment
 Content-Type: {{jsonContentType}}
 
 {
-    "userId": 1,
-    "cartId":1,
-    "totalAmount": 400
+    "userId": 8,
+    "cartId":3
 }

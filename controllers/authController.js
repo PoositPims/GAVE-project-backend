@@ -6,8 +6,8 @@ exports.checkRole =
   (...roles) =>
   async (req, res, next) => {
     // ['ADMIN']          'CUSTOMER'
-    console.log(roles);
-    console.log(req.user.role);
+    // console.log(roles);
+    // console.log(req.user.role);
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({ message: "you are not allowed" });
     }

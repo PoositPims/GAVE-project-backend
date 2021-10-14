@@ -1,0 +1,28 @@
+@jsonContentType = application/json
+
+@baseUrl = http://localhost:8115
+
+###
+# @name Login
+POST {{baseUrl}}/users/login
+Content-Type: {{jsonContentType}}
+
+{
+    "username": "buyer",
+    "password": "123"
+}
+
+###
+@authToken = {{Login.response.body.token}}
+
+###
+# @name AddToCart
+POST {{baseUrl}}/carts/
+Content-Type: {{jsonContentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "userId": 2,
+    "productId":2,
+    "quantity": 2
+}

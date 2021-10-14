@@ -37,9 +37,20 @@ const upload = multer({
 //get all authen (true)
 exports.getAllProductTrue = async (req, res, next) => {
   try {
+    // console.log("req.user...............................", req.user);
+    // console.log("req.user...............................", req.user);
+    // console.log({ user: req.user, userId: req.user.id });
     const { isActive = true } = req.query;
     const product = await Product.findAll({
-      where: { shopId: req.user.id, isActive: isActive },
+      where: {
+        shopId: req.user.id,
+        isActive: isActive,
+      },
+      include: [
+        {
+          model: Shop,
+        },
+      ],
     });
     // console.log("test");
     // console.log(product);
@@ -91,6 +102,11 @@ exports.getProductById = async (req, res, next) => {
         // userId: req.user.id,
         // ไมา่ได้กำหนดเงื่อนไข Authenticate เพราะใครๆก็เข้าถึงข้อใูลได้
       },
+      include: [
+        {
+          model: Shop,
+        },
+      ],
     });
     res.json({ product });
   } catch (err) {
@@ -112,8 +128,8 @@ exports.createProduct = async (req, res, next) => {
       shopId,
       isActive,
     } = req.body;
-
     const result = await uploadPromise(req.file.path);
+
     const product = await Product.create({
       productName,
       productPicture: result.secure_url,

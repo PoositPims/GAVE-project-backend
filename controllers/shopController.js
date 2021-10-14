@@ -16,10 +16,13 @@ exports.getAllshop = async (req, res, next) => {
 exports.getshopById = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const user = req.user;
+    console.log("user............................................");
+    console.log(user.id);
     // console.log(id)
     const shop = await Shop.findOne({
       where: {
-        id: id,
+        id: user.id,
         // shopId: req.shop.id,
         // ใส่เงื่อนไข Authenticate เพราะมันอาจจะไปขอไอดีของคนที่ไม่ใช่เจ้าของก็ได้ เราจึงจำเป็นต้องใส่ ไม่งั้นมันจะไปเอา list ของใครมาก็ได้
       },

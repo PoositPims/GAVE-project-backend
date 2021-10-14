@@ -10,6 +10,10 @@ module.exports = (Sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(15, 2),
         allowNull: false,
       },
+      // quantity: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      // },
       isPaid: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

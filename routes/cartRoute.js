@@ -7,10 +7,17 @@ router.get("/", authenticate, checkRole("BUYER"), cartController.getAllCart);
 router.get(
   "/:id",
   authenticate,
-  checkRole("BUYER"),
+  // checkRole("BUYER"),
   cartController.getCartById
 );
 router.post("/", authenticate, checkRole("BUYER"), cartController.addToCart);
-// router.delete("/:id", authenticate, cartController.deleteCart);
+// router.post("/createCart", cartController.createCart);
+router.delete(
+  // "/",
+  "/:id",
+  authenticate,
+  checkRole("BUYER"),
+  cartController.deleteCart
+);
 
 module.exports = router;

@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.22.0",
     "bcryptjs": "^2.4.3",
+    "clone": "^2.1.2",
     "cloudinary": "^1.27.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",

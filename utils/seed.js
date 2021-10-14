@@ -19,7 +19,7 @@ exports.initSeedData = async () => {
       address2: "buyer",
       role: "BUYER",
     });
-    const cart = await Cart.create({
+    await Cart.create({
       products: [],
       totalPrice: 0,
       isPaid: false,
@@ -38,7 +38,7 @@ exports.initSeedData = async () => {
       role: "SHOP",
       password: hashedPassword,
       shopAddress: "shop",
-      renenue: "shop",
+      renenue: 0,
     });
   }
   console.log("seeding finished");
