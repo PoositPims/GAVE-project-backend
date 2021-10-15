@@ -61,7 +61,7 @@ exports.getCartById = async (req, res, next) => {
 //create
 exports.addToCart = async (req, res, next) => {
   try {
-    const { productId, quantity, price } = req.body;
+    const { productId, quantity, price, shopId } = req.body;
     const { id } = req.user;
     console.log("x");
     // console.log("req.body.......................", req.body);
@@ -82,6 +82,7 @@ exports.addToCart = async (req, res, next) => {
         productId: productId,
         quantity,
         price,
+        shopId: shopId,
       });
     }
 

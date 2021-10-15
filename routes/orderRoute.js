@@ -4,7 +4,7 @@ const orderController = require("../controllers/orderController");
 const { authenticate, checkRole } = require("../controllers/authController");
 
 // router.get("/", authenticate, checkRole("Buyer"), orderController.createOrder);
-router.get("/", authenticate, checkRole("SHOP"), orderController.createOrder);
+router.get("/", authenticate, checkRole("SHOP"), orderController.getAllOrder);
 router.get("/:id", authenticate, orderController.getOrderById);
 router.post("/", authenticate, checkRole("Buyer"), orderController.createOrder);
 

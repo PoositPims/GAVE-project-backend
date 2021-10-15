@@ -3,7 +3,14 @@ const { Order, User, Cart, Product } = require("../models");
 //get all
 exports.getAllOrder = async (req, res, next) => {
   try {
-    const order = await Order.findAll();
+    const order = await Order.findAll({
+      include: [
+        { model: Cart },
+        {
+          model: User,
+        },
+      ],
+    });
     res.json({ order });
   } catch (err) {
     next(err);
@@ -19,13 +26,7 @@ exports.getOrderById = async (req, res, next) => {
       include: [
         { model: Cart },
         {
-          // model: Cart,
           model: User,
-          // where: {
-          //   id: id,
-          //   // userId: req.user.id,
-          //   // ไมา่ได้กำหนดเงื่อนไข Authenticate เพราะใครๆก็เข้าถึงข้อใูลได้
-          // },
         },
       ],
     });
